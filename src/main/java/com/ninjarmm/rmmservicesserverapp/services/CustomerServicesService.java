@@ -1,5 +1,7 @@
 package com.ninjarmm.rmmservicesserverapp.services;
 
+import com.ninjarmm.rmmservicesserverapp.exceptions.NoServicesFoundForCustomerException;
+import com.ninjarmm.rmmservicesserverapp.exceptions.ServiceAlreadyExistsException;
 import com.ninjarmm.rmmservicesserverapp.model.costs.CustomerServiceCost;
 import com.ninjarmm.rmmservicesserverapp.model.customers.Customer;
 import com.ninjarmm.rmmservicesserverapp.model.services.Service;
@@ -26,12 +28,15 @@ public class CustomerServicesService {
     }
 
     public Set<String> getServicesByCustomerId(String customerId) {
-        return serviceRepository.findAllById_CustomerId(customerId).stream()
+        Set<Service> customerServices = serviceRepository.findAllById_CustomerId(customerId);
+        checkForEmpty(customerId, customerServices);
+        return customerServices.stream()
                 .map(customerService -> customerService.getId().getServiceName())
                 .collect(Collectors.toSet());
     }
 
     public Service addServiceToCustomerId(String customerId, ServiceName serviceName) {
+        checkValidityOfRequest(customerId, serviceName);
         return serviceRepository.save(Service.builder()
                 .id(new ServiceId(customerId, serviceName.getName()))
                 .customer(Customer.builder().id(customerId).build())
@@ -49,5 +54,19 @@ public class CustomerServicesService {
 
     public void deleteDeviceFromCustomer(String customerId, ServiceName serviceName) {
         serviceRepository.deleteById(new ServiceId(customerId, serviceName.getName()));
+    }
+
+    private void checkValidityOfRequest(String customerId, ServiceName serviceName) {
+        serviceRepository.findById(new ServiceId(customerId, serviceName.getName()))
+                .ifPresent(service -> {
+                    throw new ServiceAlreadyExistsException(
+                            String.format("Service %s already exists for customer with id %s", serviceName.getName(), customerId));
+                });
+    }
+
+    private void checkForEmpty(String customerId, Set<Service> customerServices) {
+        if(customerServices.isEmpty()){
+            throw new NoServicesFoundForCustomerException(String.format("Customer with id %s has no services registered", customerId));
+        }
     }
 }
