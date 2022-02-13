@@ -1,5 +1,6 @@
 package com.ninjarmm.rmmservicesserverapp.services;
 
+import com.ninjarmm.rmmservicesserverapp.exceptions.CustomerHasNoDevicesRegisteredException;
 import com.ninjarmm.rmmservicesserverapp.model.costs.CustomerServiceCost;
 import com.ninjarmm.rmmservicesserverapp.model.devices.DeviceDto;
 import com.ninjarmm.rmmservicesserverapp.model.devices.DeviceType;
@@ -16,6 +17,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import java.util.Arrays;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.BDDMockito.given;
 
 @ExtendWith(MockitoExtension.class)
@@ -74,5 +76,12 @@ public class DealCalculationsServiceTest {
                .willReturn(Arrays.asList(customerServiceCost1, customerServiceCost2, customerServiceCost3, customerServiceCost4));
 
        assertEquals(71, testObject.calculateBillForCustomer(customer1));
+    }
+
+    @Test
+    void calculateBillForCustomerThatDNE(){
+        assertThrows(CustomerHasNoDevicesRegisteredException.class,
+                () -> testObject.calculateBillForCustomer("customer2"),
+                "CustomerId customer2 has no registered devices and therefore no bill can be calculated.");
     }
 }
