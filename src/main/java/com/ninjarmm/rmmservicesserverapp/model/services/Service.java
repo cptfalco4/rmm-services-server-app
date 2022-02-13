@@ -1,5 +1,6 @@
 package com.ninjarmm.rmmservicesserverapp.model.services;
 
+import com.ninjarmm.rmmservicesserverapp.model.costs.ServiceCost;
 import com.ninjarmm.rmmservicesserverapp.model.customers.Customer;
 import lombok.*;
 
@@ -13,7 +14,6 @@ import javax.persistence.*;
 @Getter(AccessLevel.PUBLIC)
 @Setter(AccessLevel.PUBLIC)
 @Builder
-@ToString
 public class Service {
     @EmbeddedId
     private ServiceId id;

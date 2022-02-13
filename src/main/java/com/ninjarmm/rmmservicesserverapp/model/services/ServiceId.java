@@ -1,12 +1,13 @@
 
 package com.ninjarmm.rmmservicesserverapp.model.services;
 
+import com.ninjarmm.rmmservicesserverapp.model.costs.ServiceCost;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import javax.persistence.Embeddable;
+import javax.persistence.*;
 import java.io.Serializable;
 
 @Embeddable
