@@ -1,30 +1,25 @@
-
-package com.ninjarmm.rmmservicesserverapp.model.devices;
+package com.ninjarmm.rmmservicesserverapp.model.services;
 
 import com.ninjarmm.rmmservicesserverapp.model.customers.Customer;
 import lombok.*;
 
 import javax.persistence.*;
 
-@Table(name = "devices")
+
+@Table(name = "services")
 @Entity
 @NoArgsConstructor(access= AccessLevel.PUBLIC)
 @AllArgsConstructor(access= AccessLevel.PUBLIC)
-@Builder
 @Getter(AccessLevel.PUBLIC)
 @Setter(AccessLevel.PUBLIC)
-public class Device {
+@Builder
+@ToString
+public class Service {
     @EmbeddedId
-    DeviceId id;
+    private ServiceId id;
 
-    String systemName;
-    String type;
-
-    @ManyToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "customer_id")
+    @ManyToOne
+    @JoinColumn(name="customer_id", nullable = false)
     @MapsId("customerId")
     private Customer customer;
-
 }
-
-

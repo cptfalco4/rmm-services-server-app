@@ -1,4 +1,4 @@
-package com.ninjarmm.rmmservicesserverapp.model.services;
+package com.ninjarmm.rmmservicesserverapp.model.devices;
 
 import lombok.*;
 
@@ -9,8 +9,8 @@ import java.io.Serializable;
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
-@EqualsAndHashCode
-public class CustomerServiceId implements Serializable {
+@Setter
+public class DeviceId implements Serializable {
     String customerId;
-    String serviceName;
+    String deviceId;
 }

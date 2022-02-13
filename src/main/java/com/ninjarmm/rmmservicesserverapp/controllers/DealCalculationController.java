@@ -2,18 +2,20 @@ package com.ninjarmm.rmmservicesserverapp.controllers;
 
 import com.ninjarmm.rmmservicesserverapp.services.DealCalculationsService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.*;
-import reactor.core.publisher.Mono;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/{customerId}")
+@RequestMapping("/customers/{customerId}")
 public class DealCalculationController {
     @Autowired
     private DealCalculationsService dealCalculationsService;
 
     @GetMapping
-    private Mono<Integer> calculateCustomersMonthlyBill(@PathVariable String customerId) {
-        return dealCalculationsService.calculateBill(customerId);
+    private Integer calculateCustomersMonthlyBill(@PathVariable String customerId) {
+        return 1;
     }
 
 }

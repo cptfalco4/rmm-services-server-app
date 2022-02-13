@@ -1,11 +1,12 @@
 package com.ninjarmm.rmmservicesserverapp.model.devices;
 
+import lombok.Builder;
 import lombok.Value;
 
-import java.io.Serializable;
-
 @Value
-public class CustomerDeviceId implements Serializable {
-    String customerId;
+@Builder
+public class DeviceDto {
     String deviceId;
+    String systemName;
+    String type;
 }

@@ -1,33 +1,37 @@
 package com.ninjarmm.rmmservicesserverapp.services;
 
-import com.ninjarmm.rmmservicesserverapp.model.services.CustomerService;
-import com.ninjarmm.rmmservicesserverapp.model.services.CustomerServiceId;
+import com.ninjarmm.rmmservicesserverapp.model.services.Service;
+import com.ninjarmm.rmmservicesserverapp.model.services.ServiceId;
 import com.ninjarmm.rmmservicesserverapp.model.services.ServiceName;
-import com.ninjarmm.rmmservicesserverapp.repositories.CustomerServiceRepository;
-import org.springframework.stereotype.Service;
-import reactor.core.publisher.Flux;
-import reactor.core.publisher.Mono;
+import com.ninjarmm.rmmservicesserverapp.repositories.ServiceRepository;
 
-@Service
+import java.util.HashSet;
+import java.util.Set;
+
+@org.springframework.stereotype.Service
 public class CustomerServicesService {
-    private final CustomerServiceRepository serviceRepository;
+    private final ServiceRepository serviceRepository;
 
-    public CustomerServicesService(CustomerServiceRepository serviceRepository) {
+    public CustomerServicesService(ServiceRepository serviceRepository) {
         this.serviceRepository = serviceRepository;
     }
 
-    public Flux<ServiceName> getServicesByCustomerId(String customerId) {
-        return serviceRepository.findAllById_CustomerId(customerId)
-                .map(customerService -> customerService.getId().getServiceName());
+    public Set<String> getServicesByCustomerId(String customerId) {
+        return new HashSet<>();
+
+//                serviceRepository.findAllByCustomer_Id(customerId).stream()
+//                .map(customerService -> customerService.getId().getServiceName())
+//                .collect(Collectors.toSet());
     }
 
-    public Mono<CustomerService> addServiceToCustomerId(String customerId, ServiceName serviceName) {
-        return serviceRepository.save(CustomerService.builder()
-                .id(new CustomerServiceId(customerId, serviceName))
-                .build());
+    public Service addServiceToCustomerId(String customerId, ServiceName serviceName) {
+        return null;
+//                serviceRepository.save(CustomerService.builder()
+//                .id(new CustomerServiceId(customerId, serviceName.getName()))
+//                .build());
     }
 
-    public Mono<Void> deleteDeviceFromCustomer(String customerId, ServiceName serviceName) {
-        return serviceRepository.deleteById(new CustomerServiceId(customerId, serviceName));
+    public void deleteDeviceFromCustomer(String customerId, ServiceName serviceName) {
+        serviceRepository.deleteById(new ServiceId(customerId, serviceName.getName()));
     }
 }

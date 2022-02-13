@@ -14,7 +14,6 @@ import javax.persistence.Table;
 @AllArgsConstructor
 public class ServiceCost {
     @Id
-    ServiceName serviceName;
-
+    String serviceName;
     int price;
 }
