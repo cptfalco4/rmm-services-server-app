@@ -57,6 +57,19 @@ public class DeviceRepositoryIT extends CustomerDependentRepositoryITBase{
     }
 
     @Test
+    void updateExistingDevice() {
+        assertEquals(DeviceType.MAC.getName(), testObject.findById(new DeviceId(CUSTOMER_1, "device1")).get().getType());
+        Device updatedDevice = Device.builder()
+                .id(new DeviceId(CUSTOMER_1, "device1"))
+                .systemName("systemName")
+                .type(DeviceType.WINDOWS_SERVER.getName())
+                .customer(CUSTOMER_1_ENTITY)
+                .build();
+        testObject.save(updatedDevice);
+        assertEquals(DeviceType.WINDOWS_SERVER.getName(), testObject.findById(new DeviceId(CUSTOMER_1, "device1")).get().getType());
+    }
+
+    @Test
     void noDevicesFound() {
         Set<Device> actualDevices = testObject.findAllById_CustomerId("fakecustomer");
         assertEquals(Collections.emptySet(), actualDevices);

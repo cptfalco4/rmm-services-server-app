@@ -1,12 +1,10 @@
 package com.ninjarmm.rmmservicesserverapp.services;
 
-import com.ninjarmm.rmmservicesserverapp.exceptions.CustomerHasNoDevicesRegisteredException;
+import com.ninjarmm.rmmservicesserverapp.exceptions.NoDevicesFoundForCustomerException;
 import com.ninjarmm.rmmservicesserverapp.model.costs.CustomerServiceCost;
 import com.ninjarmm.rmmservicesserverapp.model.devices.DeviceDto;
 import com.ninjarmm.rmmservicesserverapp.model.devices.DeviceType;
 import com.ninjarmm.rmmservicesserverapp.model.services.ServiceName;
-import com.ninjarmm.rmmservicesserverapp.repositories.DeviceRepository;
-import com.ninjarmm.rmmservicesserverapp.repositories.ServiceRepository;
 import org.assertj.core.util.Sets;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -80,8 +78,13 @@ public class DealCalculationsServiceTest {
 
     @Test
     void calculateBillForCustomerThatDNE(){
-        assertThrows(CustomerHasNoDevicesRegisteredException.class,
-                () -> testObject.calculateBillForCustomer("customer2"),
-                "CustomerId customer2 has no registered devices and therefore no bill can be calculated.");
+        String customer2 = "customer2";
+
+        given(deviceService.getDevicesByCustomerId(customer2))
+                .willThrow(NoDevicesFoundForCustomerException.class);
+
+        assertThrows(NoDevicesFoundForCustomerException.class,
+                () -> testObject.calculateBillForCustomer(customer2),
+                "CustomerId customer2 has no registered devices");
     }
 }

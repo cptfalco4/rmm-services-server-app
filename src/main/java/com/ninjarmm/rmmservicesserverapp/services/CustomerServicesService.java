@@ -66,7 +66,7 @@ public class CustomerServicesService {
 
     private void checkForEmpty(String customerId, Set<Service> customerServices) {
         if(customerServices.isEmpty()){
-            throw new NoServicesFoundForCustomerException(String.format("Customer with id %s has no services registered", customerId));
+            throw new NoServicesFoundForCustomerException(customerId);
         }
     }
 }

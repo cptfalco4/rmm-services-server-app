@@ -1,6 +1,6 @@
 package com.ninjarmm.rmmservicesserverapp.services;
 
-import com.ninjarmm.rmmservicesserverapp.exceptions.CustomerHasNoDevicesRegisteredException;
+import com.ninjarmm.rmmservicesserverapp.exceptions.NoDevicesFoundForCustomerException;
 import com.ninjarmm.rmmservicesserverapp.model.costs.CustomerServiceCost;
 import com.ninjarmm.rmmservicesserverapp.model.devices.DeviceDto;
 import com.ninjarmm.rmmservicesserverapp.model.devices.DeviceType;
@@ -25,8 +25,6 @@ public class DealCalculationsService {
 
     public int calculateBillForCustomer(String customerId) {
         Set<DeviceDto> devicesByCustomerId = deviceService.getDevicesByCustomerId(customerId);
-        checkValidity(customerId, devicesByCustomerId);
-
         List<CustomerServiceCost> serviceCosts = customerServicesService.getServiceCostsByCustomerId(customerId);
         Integer servicesCostAggregated = serviceCosts.stream()
                 .map(customerServiceCost -> multiplyServicesCost(customerServiceCost, devicesByCustomerId))
@@ -35,13 +33,6 @@ public class DealCalculationsService {
         int generalDevicesCost = Math.multiplyExact(devicesByCustomerId.size(), DEVICE_FLAT_PRICE);
 
         return Math.addExact(servicesCostAggregated, generalDevicesCost);
-    }
-
-    private void checkValidity(String customerId, Set<DeviceDto> devicesByCustomerId) {
-        if(devicesByCustomerId.isEmpty()) {
-            throw new CustomerHasNoDevicesRegisteredException(
-                    String.format("CustomerId %s has no registered devices and therefore no bill can be calculated.", customerId));
-        }
     }
 
     private int multiplyServicesCost(CustomerServiceCost customerServiceCost, Set<DeviceDto> devicesByCustomerId) {

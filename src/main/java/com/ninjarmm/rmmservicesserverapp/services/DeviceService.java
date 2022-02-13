@@ -1,5 +1,6 @@
 package com.ninjarmm.rmmservicesserverapp.services;
 
+import com.ninjarmm.rmmservicesserverapp.exceptions.NoDevicesFoundForCustomerException;
 import com.ninjarmm.rmmservicesserverapp.model.customers.Customer;
 import com.ninjarmm.rmmservicesserverapp.model.devices.DeviceId;
 import com.ninjarmm.rmmservicesserverapp.model.devices.Device;
@@ -21,12 +22,20 @@ public class DeviceService {
     }
 
     public Set<DeviceDto> getDevicesByCustomerId(String customerId) {
-        return deviceRepository.findAllById_CustomerId(customerId).stream()
+        Set<Device> customerDevices = deviceRepository.findAllById_CustomerId(customerId);
+        checkIfEmpty(customerId, customerDevices);
+        return customerDevices.stream()
                 .map(customerDevice -> DeviceDto.builder()
                         .deviceId(customerDevice.getId().getDeviceId())
                         .systemName(customerDevice.getSystemName())
                         .type(customerDevice.getType())
                         .build()).collect(Collectors.toSet());
+    }
+
+    private void checkIfEmpty(String customerId, Set<Device> customerDevices) {
+        if(customerDevices.isEmpty()){
+            throw new NoDevicesFoundForCustomerException(customerId);
+        }
     }
 
     public Device addDeviceToCustomerId(String customerId, DeviceDetails deviceDetails) {

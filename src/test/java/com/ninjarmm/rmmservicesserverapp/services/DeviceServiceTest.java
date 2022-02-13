@@ -1,5 +1,6 @@
 package com.ninjarmm.rmmservicesserverapp.services;
 
+import com.ninjarmm.rmmservicesserverapp.exceptions.NoDevicesFoundForCustomerException;
 import com.ninjarmm.rmmservicesserverapp.model.customers.Customer;
 import com.ninjarmm.rmmservicesserverapp.model.devices.Device;
 import com.ninjarmm.rmmservicesserverapp.model.devices.DeviceDto;
@@ -16,6 +17,7 @@ import java.util.Collections;
 import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.BDDMockito.given;
 
 @ExtendWith(MockitoExtension.class)
@@ -60,7 +62,9 @@ public class DeviceServiceTest {
 
     @Test
     public void getDevicesByCustomerId_customerDNE() {
-        assertEquals(Collections.emptySet(), testObject.getDevicesByCustomerId(CUSTOMER_ID));
+        assertThrows(NoDevicesFoundForCustomerException.class,
+                ()->testObject.getDevicesByCustomerId(CUSTOMER_ID),
+                "CustomerId customer1 has no registered devices");
     }
 
 }
