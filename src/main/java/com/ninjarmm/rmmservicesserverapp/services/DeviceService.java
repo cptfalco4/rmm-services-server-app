@@ -1,5 +1,6 @@
 package com.ninjarmm.rmmservicesserverapp.services;
 
+import com.ninjarmm.rmmservicesserverapp.exceptions.DeviceNotFoundException;
 import com.ninjarmm.rmmservicesserverapp.exceptions.NoDevicesFoundForCustomerException;
 import com.ninjarmm.rmmservicesserverapp.model.customers.Customer;
 import com.ninjarmm.rmmservicesserverapp.model.devices.DeviceId;
@@ -32,12 +33,6 @@ public class DeviceService {
                         .build()).collect(Collectors.toSet());
     }
 
-    private void checkIfEmpty(String customerId, Set<Device> customerDevices) {
-        if(customerDevices.isEmpty()){
-            throw new NoDevicesFoundForCustomerException(customerId);
-        }
-    }
-
     public Device addDeviceToCustomerId(String customerId, DeviceDetails deviceDetails) {
         return saveDeviceByDetailsAndId(customerId, UUID.randomUUID().toString(), deviceDetails);
     }
@@ -47,7 +42,19 @@ public class DeviceService {
     }
 
     public Device updateDeviceOnCustomer(String customerId, String deviceId, DeviceDetails deviceDetails) {
+        checkBeforeUpdatingDevice(customerId, deviceId);
         return saveDeviceByDetailsAndId(customerId, deviceId, deviceDetails);
+    }
+
+    private void checkBeforeUpdatingDevice(String customerId, String deviceId) {
+        deviceRepository.findById(new DeviceId(customerId, deviceId))
+                .orElseThrow(()-> new DeviceNotFoundException(customerId, deviceId));
+    }
+
+    private void checkIfEmpty(String customerId, Set<Device> customerDevices) {
+        if(customerDevices.isEmpty()){
+            throw new NoDevicesFoundForCustomerException(customerId);
+        }
     }
 
     private Device saveDeviceByDetailsAndId(String customerId, String deviceId, DeviceDetails deviceDetails) {
