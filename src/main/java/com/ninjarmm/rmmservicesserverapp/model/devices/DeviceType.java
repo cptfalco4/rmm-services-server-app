@@ -1,6 +1,7 @@
 package com.ninjarmm.rmmservicesserverapp.model.devices;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
+import com.ninjarmm.rmmservicesserverapp.exceptions.DeviceTypeDoesNotExistException;
 
 import java.util.stream.Stream;
 
@@ -20,6 +21,6 @@ public enum DeviceType {
         return Stream.of(values())
                 .filter(deviceType -> deviceType.getName().equalsIgnoreCase(value))
                 .findFirst()
-                .orElse(null);
+                .orElseThrow(() -> new DeviceTypeDoesNotExistException(value));
     }
 }

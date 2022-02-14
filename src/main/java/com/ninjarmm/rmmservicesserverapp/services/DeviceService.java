@@ -7,9 +7,11 @@ import com.ninjarmm.rmmservicesserverapp.model.devices.DeviceId;
 import com.ninjarmm.rmmservicesserverapp.model.devices.Device;
 import com.ninjarmm.rmmservicesserverapp.model.devices.DeviceDto;
 import com.ninjarmm.rmmservicesserverapp.model.devices.DeviceDetails;
+import com.ninjarmm.rmmservicesserverapp.repositories.CustomerRepository;
 import com.ninjarmm.rmmservicesserverapp.repositories.DeviceRepository;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
 import java.util.Set;
 import java.util.UUID;
 import java.util.stream.Collectors;
@@ -17,9 +19,11 @@ import java.util.stream.Collectors;
 @Service
 public class DeviceService {
     private final DeviceRepository deviceRepository;
+    private final CustomerRepository customerRepository;
 
-    public DeviceService(DeviceRepository deviceRepository) {
+    public DeviceService(DeviceRepository deviceRepository, CustomerRepository customerRepository) {
         this.deviceRepository = deviceRepository;
+        this.customerRepository = customerRepository;
     }
 
     public Set<DeviceDto> getDevicesByCustomerId(String customerId) {
@@ -34,7 +38,17 @@ public class DeviceService {
     }
 
     public Device addDeviceToCustomerId(String customerId, DeviceDetails deviceDetails) {
+        prepareCustomer(customerId);
         return saveDeviceByDetailsAndId(customerId, UUID.randomUUID().toString(), deviceDetails);
+    }
+
+    private void prepareCustomer(String customerId) {
+        Optional<Customer> customer = customerRepository.findById(customerId);
+        if (customer.isEmpty()) {
+            customerRepository.save(Customer.builder()
+                    .id(customerId)
+                    .build());
+        }
     }
 
     public void deleteDeviceFromCustomer(String customerId, String deviceId) {
@@ -48,11 +62,11 @@ public class DeviceService {
 
     private void checkBeforeUpdatingDevice(String customerId, String deviceId) {
         deviceRepository.findById(new DeviceId(customerId, deviceId))
-                .orElseThrow(()-> new DeviceNotFoundException(customerId, deviceId));
+                .orElseThrow(() -> new DeviceNotFoundException(customerId, deviceId));
     }
 
     private void checkIfEmpty(String customerId, Set<Device> customerDevices) {
-        if(customerDevices.isEmpty()){
+        if (customerDevices.isEmpty()) {
             throw new NoDevicesFoundForCustomerException(customerId);
         }
     }

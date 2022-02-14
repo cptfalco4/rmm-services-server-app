@@ -1,6 +1,7 @@
 
 package com.ninjarmm.rmmservicesserverapp.model.devices;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.ninjarmm.rmmservicesserverapp.model.customers.Customer;
 import lombok.*;
 
@@ -20,6 +21,7 @@ public class Device {
     String systemName;
     String type;
 
+    @JsonIgnore
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "customer_id")
     @MapsId("customerId")

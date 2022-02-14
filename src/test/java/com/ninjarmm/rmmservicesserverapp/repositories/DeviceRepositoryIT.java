@@ -3,46 +3,30 @@ package com.ninjarmm.rmmservicesserverapp.repositories;
 import com.ninjarmm.rmmservicesserverapp.model.devices.DeviceId;
 import com.ninjarmm.rmmservicesserverapp.model.devices.Device;
 import com.ninjarmm.rmmservicesserverapp.model.devices.DeviceType;
+import com.ninjarmm.rmmservicesserverapp.util.BaseIT;
+import com.ninjarmm.rmmservicesserverapp.util.DeviceUtil;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
 
 import java.util.Collections;
 import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-public class DeviceRepositoryIT extends CustomerDependentRepositoryITBase{
+@SpringBootTest
+public class DeviceRepositoryIT extends BaseIT {
     @Autowired
     private DeviceRepository testObject;
 
     @BeforeEach
     public void setup() {
-        Device device1 = Device.builder()
-                .id(new DeviceId(CUSTOMER_1, "device1"))
-                .systemName("systemName")
-                .type(DeviceType.MAC.getName())
-                .customer(CUSTOMER_1_ENTITY)
-                .build();
-        Device device2 = Device.builder()
-                .id(new DeviceId(CUSTOMER_1, "device2"))
-                .systemName("systemName")
-                .type(DeviceType.WINDOWS_SERVER.getName())
-                .customer(CUSTOMER_1_ENTITY)
-                .build();
-        Device device3 = Device.builder()
-                .id(new DeviceId(CUSTOMER_1, "device3"))
-                .systemName("systemName")
-                .type(DeviceType.MAC.getName())
-                .customer(CUSTOMER_1_ENTITY)
-                .build();
-        Device device4 = Device.builder()
-                .id(new DeviceId(CUSTOMER_2, "device1"))
-                .systemName("systemName")
-                .type(DeviceType.WINDOWS_WORKSTATION.getName())
-                .customer(CUSTOMER_2_ENTITY)
-                .build();
+        Device device1 = DeviceUtil.buildDevice(CUSTOMER_1, "device1", DeviceType.MAC);
+        Device device2 = DeviceUtil.buildDevice(CUSTOMER_1, "device2", DeviceType.WINDOWS_SERVER);
+        Device device3 = DeviceUtil.buildDevice(CUSTOMER_1, "device3", DeviceType.MAC);
+        Device device4 = DeviceUtil.buildDevice(CUSTOMER_2, "device1", DeviceType.WINDOWS_WORKSTATION);
 
         testObject.save(device1);
         testObject.save(device2);
@@ -59,12 +43,7 @@ public class DeviceRepositoryIT extends CustomerDependentRepositoryITBase{
     @Test
     void updateExistingDevice() {
         assertEquals(DeviceType.MAC.getName(), testObject.findById(new DeviceId(CUSTOMER_1, "device1")).get().getType());
-        Device updatedDevice = Device.builder()
-                .id(new DeviceId(CUSTOMER_1, "device1"))
-                .systemName("systemName")
-                .type(DeviceType.WINDOWS_SERVER.getName())
-                .customer(CUSTOMER_1_ENTITY)
-                .build();
+        Device updatedDevice = DeviceUtil.buildDevice(CUSTOMER_1, "device1", DeviceType.WINDOWS_SERVER);
         testObject.save(updatedDevice);
         assertEquals(DeviceType.WINDOWS_SERVER.getName(), testObject.findById(new DeviceId(CUSTOMER_1, "device1")).get().getType());
     }

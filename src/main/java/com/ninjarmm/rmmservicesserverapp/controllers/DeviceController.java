@@ -12,7 +12,7 @@ import java.util.Set;
 
 @RestController
 @RequestMapping("/customers/{customerId}/devices")
-public class CustomerDeviceController {
+public class DeviceController {
     @Autowired
     DeviceService deviceService;
 

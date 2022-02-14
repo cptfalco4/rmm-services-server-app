@@ -7,14 +7,12 @@ import com.ninjarmm.rmmservicesserverapp.model.customers.Customer;
 import com.ninjarmm.rmmservicesserverapp.model.services.Service;
 import com.ninjarmm.rmmservicesserverapp.model.services.ServiceId;
 import com.ninjarmm.rmmservicesserverapp.model.services.ServiceName;
+import com.ninjarmm.rmmservicesserverapp.model.services.ServiceNameDto;
 import com.ninjarmm.rmmservicesserverapp.repositories.ServiceRepository;
 
 import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
 import javax.persistence.Query;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @org.springframework.stereotype.Service
@@ -35,12 +33,15 @@ public class CustomerServicesService {
                 .collect(Collectors.toSet());
     }
 
-    public Service addServiceToCustomerId(String customerId, ServiceName serviceName) {
+    public Service addServiceToCustomerId(String customerId, ServiceNameDto serviceName) {
         checkValidityOfRequest(customerId, serviceName);
-        return serviceRepository.save(Service.builder()
-                .id(new ServiceId(customerId, serviceName.getName()))
-                .customer(Customer.builder().id(customerId).build())
-                .build());
+        if (serviceName == ServiceNameDto.ANTIVIRUS) {
+            Service windowsAntivirus = buildService(customerId, ServiceName.ANTIVIRUS_WINDOWS);
+            Service macAntivirus = buildService(customerId, ServiceName.ANTIVIRUS_MAC);
+            serviceRepository.saveAll(Arrays.asList(windowsAntivirus, macAntivirus));
+            return windowsAntivirus;
+        }
+        return serviceRepository.save(buildService(customerId, ServiceName.find(serviceName.getName())));
     }
 
     public List<CustomerServiceCost> getServiceCostsByCustomerId(String customerId) {
@@ -52,20 +53,34 @@ public class CustomerServicesService {
         return query.getResultList();
     }
 
-    public void deleteDeviceFromCustomer(String customerId, ServiceName serviceName) {
-        serviceRepository.deleteById(new ServiceId(customerId, serviceName.getName()));
+    public void deleteServiceFromCustomer(String customerId, ServiceNameDto serviceName) {
+        if(serviceName == ServiceNameDto.ANTIVIRUS){
+            serviceRepository.deleteById(new ServiceId(customerId, ServiceName.ANTIVIRUS_WINDOWS.getName()));
+            serviceRepository.deleteById(new ServiceId(customerId, ServiceName.ANTIVIRUS_MAC.getName()));
+        } else {
+            serviceRepository.deleteById(new ServiceId(customerId, serviceName.getName()));
+        }
     }
 
-    private void checkValidityOfRequest(String customerId, ServiceName serviceName) {
-        serviceRepository.findById(new ServiceId(customerId, serviceName.getName()))
-                .ifPresent(service -> {
-                    throw new ServiceAlreadyExistsException(
-                            String.format("Service %s already exists for customer with id %s", serviceName.getName(), customerId));
-                });
+    private Service buildService(String customerId, ServiceName serviceName) {
+        return Service.builder()
+                .id(new ServiceId(customerId, serviceName.getName()))
+                .customer(Customer.builder().id(customerId).build())
+                .build();
+    }
+
+    private void checkValidityOfRequest(String customerId, ServiceNameDto serviceName) {
+        Optional<Service> existingService = (serviceName == ServiceNameDto.ANTIVIRUS) ?
+                serviceRepository.findById(new ServiceId(customerId, ServiceName.ANTIVIRUS_WINDOWS.getName())) :
+                serviceRepository.findById(new ServiceId(customerId, serviceName.getName()));
+        existingService.ifPresent(service -> {
+            throw new ServiceAlreadyExistsException(
+                    String.format("Service %s already exists for customer with id %s", serviceName.getName(), customerId));
+        });
     }
 
     private void checkForEmpty(String customerId, Set<Service> customerServices) {
-        if(customerServices.isEmpty()){
+        if (customerServices.isEmpty()) {
             throw new NoServicesFoundForCustomerException(customerId);
         }
     }

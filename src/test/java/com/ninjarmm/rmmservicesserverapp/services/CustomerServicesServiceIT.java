@@ -7,17 +7,16 @@ import com.ninjarmm.rmmservicesserverapp.model.costs.ServiceCost;
 import com.ninjarmm.rmmservicesserverapp.model.services.Service;
 import com.ninjarmm.rmmservicesserverapp.model.services.ServiceId;
 import com.ninjarmm.rmmservicesserverapp.model.services.ServiceName;
-import com.ninjarmm.rmmservicesserverapp.repositories.CustomerDependentRepositoryITBase;
+import com.ninjarmm.rmmservicesserverapp.model.services.ServiceNameDto;
+import com.ninjarmm.rmmservicesserverapp.util.BaseIT;
 import com.ninjarmm.rmmservicesserverapp.repositories.ServiceCostRepository;
 import com.ninjarmm.rmmservicesserverapp.repositories.ServiceRepository;
 import org.assertj.core.util.Sets;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import java.util.Arrays;
 import java.util.Collections;
@@ -26,9 +25,8 @@ import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-@ExtendWith(SpringExtension.class)
 @SpringBootTest
-public class CustomerServicesServiceIT extends CustomerDependentRepositoryITBase {
+public class CustomerServicesServiceIT extends BaseIT {
     @Autowired
     private ServiceRepository serviceRepository;
     @Autowired
@@ -40,7 +38,7 @@ public class CustomerServicesServiceIT extends CustomerDependentRepositoryITBase
     public void setUp(){
         serviceRepository.save(new Service(new ServiceId(CUSTOMER_1, ServiceName.PSA.getName()),
                 CUSTOMER_1_ENTITY));
-        serviceRepository.save(new Service(new ServiceId(CUSTOMER_1, ServiceName.ANTIVIRUS_MAC.getName()),
+        serviceRepository.save(new Service(new ServiceId(CUSTOMER_1, ServiceName.CLOUDBERRY.getName()),
                 CUSTOMER_1_ENTITY));
     }
 
@@ -48,7 +46,7 @@ public class CustomerServicesServiceIT extends CustomerDependentRepositoryITBase
     public void getServicesByCustomerId(){
         Set<String> actualServices = testObject.getServicesByCustomerId(CUSTOMER_1);
         Set<String> expectedResult = Sets.newHashSet(Arrays.asList(ServiceName.PSA.getName(),
-                ServiceName.ANTIVIRUS_MAC.getName()));
+                ServiceName.CLOUDBERRY.getName()));
         assertEquals(expectedResult, actualServices);
     }
 
@@ -61,11 +59,20 @@ public class CustomerServicesServiceIT extends CustomerDependentRepositoryITBase
 
     @Test
     public void addServiceToCustomerId(){
-        testObject.addServiceToCustomerId(CUSTOMER_1, ServiceName.TEAM_VIEWER);
+        testObject.addServiceToCustomerId(CUSTOMER_1, ServiceNameDto.TEAM_VIEWER);
         Set<String> expectedResult = Sets.newHashSet(Arrays.asList(ServiceName.PSA.getName(),
-                ServiceName.ANTIVIRUS_MAC.getName(),
+                ServiceName.CLOUDBERRY.getName(),
                 ServiceName.TEAM_VIEWER.getName()));
         assertEquals(expectedResult, testObject.getServicesByCustomerId(CUSTOMER_1));
+    }
+
+    @Test
+    public void addServiceToCustomerId_Antivirus(){
+        testObject.addServiceToCustomerId(CUSTOMER_2, ServiceNameDto.ANTIVIRUS);
+        Set<String> expectedResult = Sets.newHashSet(Arrays.asList(
+                ServiceName.ANTIVIRUS_WINDOWS.getName(),
+                ServiceName.ANTIVIRUS_MAC.getName()));
+        assertEquals(expectedResult, testObject.getServicesByCustomerId(CUSTOMER_2));
     }
 
     @Test
@@ -75,24 +82,41 @@ public class CustomerServicesServiceIT extends CustomerDependentRepositoryITBase
                 .customer(CUSTOMER_1_ENTITY)
                 .build());
         assertThrows(ServiceAlreadyExistsException.class,
-                ()-> testObject.addServiceToCustomerId(CUSTOMER_1, ServiceName.PSA),
+                ()-> testObject.addServiceToCustomerId(CUSTOMER_1, ServiceNameDto.PSA),
                 "Service PSA already exists for customer with id customer1");
     }
 
     @Test
-    public void deleteDeviceFromCustomer(){
-        testObject.deleteDeviceFromCustomer(CUSTOMER_1, ServiceName.PSA);
-        Set<String> expectedResult = Sets.newHashSet(Collections.singleton(ServiceName.ANTIVIRUS_MAC.getName()));
+    public void deleteServiceFromCustomer(){
+        testObject.deleteServiceFromCustomer(CUSTOMER_1, ServiceNameDto.PSA);
+        Set<String> expectedResult = Sets.newHashSet(Collections.singleton(ServiceName.CLOUDBERRY.getName()));
+        assertEquals(expectedResult, testObject.getServicesByCustomerId(CUSTOMER_1));
+    }
+
+    @Test
+    public void deleteServiceFromCustomer_Antivirus(){
+        testObject.addServiceToCustomerId(CUSTOMER_1, ServiceNameDto.ANTIVIRUS);
+        Set<String> expectedServices = Sets.newHashSet(Arrays.asList(
+                ServiceName.CLOUDBERRY.getName(),
+                ServiceName.PSA.getName(),
+                ServiceName.ANTIVIRUS_WINDOWS.getName(),
+                ServiceName.ANTIVIRUS_MAC.getName()));
+        assertEquals(expectedServices, testObject.getServicesByCustomerId(CUSTOMER_1));
+        testObject.deleteServiceFromCustomer(CUSTOMER_1, ServiceNameDto.ANTIVIRUS);
+
+        Set<String> expectedResult = Sets.newHashSet(Arrays.asList(
+                ServiceName.CLOUDBERRY.getName(),
+                ServiceName.PSA.getName()));
         assertEquals(expectedResult, testObject.getServicesByCustomerId(CUSTOMER_1));
     }
 
     @Test
     public void getServiceCostsByCustomerId(){
         serviceCostRepository.save(new ServiceCost(ServiceName.PSA.getName(), 2));
-        serviceCostRepository.save(new ServiceCost(ServiceName.ANTIVIRUS_MAC.getName(), 7));
+        serviceCostRepository.save(new ServiceCost(ServiceName.CLOUDBERRY.getName(), 7));
 
         CustomerServiceCost customerServiceCost1 = new CustomerServiceCost(CUSTOMER_1, ServiceName.PSA.getName(), 2);
-        CustomerServiceCost customerServiceCost2 = new CustomerServiceCost(CUSTOMER_1, ServiceName.ANTIVIRUS_MAC.getName(), 7);
+        CustomerServiceCost customerServiceCost2 = new CustomerServiceCost(CUSTOMER_1, ServiceName.CLOUDBERRY.getName(), 7);
         List<CustomerServiceCost> actualServiceCostsByCustomer = testObject.getServiceCostsByCustomerId(CUSTOMER_1);
         assertTrue(actualServiceCostsByCustomer.containsAll(Arrays.asList(customerServiceCost1, customerServiceCost2)));
     }

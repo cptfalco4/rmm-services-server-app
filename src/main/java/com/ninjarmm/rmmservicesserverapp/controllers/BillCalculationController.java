@@ -8,14 +8,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/customers/{customerId}")
-public class DealCalculationController {
+@RequestMapping("/customers/{customerId}/calculate")
+public class BillCalculationController {
     @Autowired
     private DealCalculationsService dealCalculationsService;
 
     @GetMapping
     private Integer calculateCustomersMonthlyBill(@PathVariable String customerId) {
-        return 1;
+        return dealCalculationsService.calculateBillForCustomer(customerId);
     }
 
 }

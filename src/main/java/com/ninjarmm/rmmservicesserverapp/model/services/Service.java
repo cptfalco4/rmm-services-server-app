@@ -1,5 +1,6 @@
 package com.ninjarmm.rmmservicesserverapp.model.services;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.ninjarmm.rmmservicesserverapp.model.costs.ServiceCost;
 import com.ninjarmm.rmmservicesserverapp.model.customers.Customer;
 import lombok.*;
@@ -18,6 +19,7 @@ public class Service {
     @EmbeddedId
     private ServiceId id;
 
+    @JsonIgnore
     @ManyToOne
     @JoinColumn(name="customer_id", nullable = false)
     @MapsId("customerId")

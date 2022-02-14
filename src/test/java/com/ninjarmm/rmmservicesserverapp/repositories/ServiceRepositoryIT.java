@@ -1,23 +1,22 @@
 package com.ninjarmm.rmmservicesserverapp.repositories;
 
-import com.ninjarmm.rmmservicesserverapp.model.costs.CustomerServiceCost;
-import com.ninjarmm.rmmservicesserverapp.model.costs.ServiceCost;
 import com.ninjarmm.rmmservicesserverapp.model.services.Service;
 import com.ninjarmm.rmmservicesserverapp.model.services.ServiceId;
 import com.ninjarmm.rmmservicesserverapp.model.services.ServiceName;
-import org.assertj.core.util.Sets;
+import com.ninjarmm.rmmservicesserverapp.util.BaseIT;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
 
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-public class ServiceRepositoryIT extends CustomerDependentRepositoryITBase {
+@SpringBootTest
+public class ServiceRepositoryIT extends BaseIT {
     @Autowired
     private ServiceRepository testObject;
     @Autowired

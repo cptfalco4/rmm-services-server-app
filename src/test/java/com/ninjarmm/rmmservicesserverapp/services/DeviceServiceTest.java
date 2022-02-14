@@ -4,6 +4,7 @@ import com.ninjarmm.rmmservicesserverapp.exceptions.DeviceNotFoundException;
 import com.ninjarmm.rmmservicesserverapp.exceptions.NoDevicesFoundForCustomerException;
 import com.ninjarmm.rmmservicesserverapp.model.customers.Customer;
 import com.ninjarmm.rmmservicesserverapp.model.devices.*;
+import com.ninjarmm.rmmservicesserverapp.repositories.CustomerRepository;
 import com.ninjarmm.rmmservicesserverapp.repositories.DeviceRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -25,6 +26,8 @@ public class DeviceServiceTest {
     private static final String CUSTOMER_ID = "customer1";
     @Mock
     private DeviceRepository deviceRepository;
+    @Mock
+    private CustomerRepository customerRepository;
 
     private DeviceService testObject;
     private String deviceId;
@@ -34,7 +37,7 @@ public class DeviceServiceTest {
 
     @BeforeEach
     public void setUp() {
-        testObject = new DeviceService(deviceRepository);
+        testObject = new DeviceService(deviceRepository, customerRepository);
         deviceId = "device1";
         systemName = "systemName";
         type = DeviceType.WINDOWS_WORKSTATION.getName();
@@ -72,8 +75,19 @@ public class DeviceServiceTest {
 
     @Test
     void addDevice(){
+        given(customerRepository.findById(CUSTOMER_ID))
+                .willReturn(Optional.of(Customer.builder().id(CUSTOMER_ID).build()));
         given(deviceRepository.save(any())).willReturn(device);
         assertEquals(device, testObject.addDeviceToCustomerId(CUSTOMER_ID, new DeviceDetails("system1", DeviceType.WINDOWS_WORKSTATION)));
+    }
+
+    @Test
+    void addDevice_CustomerDNE(){
+        String newCustomer = "customer2";
+        given(deviceRepository.save(any())).willReturn(device);
+        given(customerRepository.findById(newCustomer)).willReturn(Optional.empty());
+        given(customerRepository.save(any())).willReturn(Customer.builder().id(newCustomer).build());
+        assertEquals(device, testObject.addDeviceToCustomerId(newCustomer, new DeviceDetails("system1", DeviceType.WINDOWS_WORKSTATION)));
     }
 
     @Test

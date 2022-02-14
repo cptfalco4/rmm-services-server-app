@@ -43,8 +43,8 @@ public class DealCalculationsService {
 
         int calculation = 0;
         switch(customerServiceCost.getServiceName()) {
-            case "Antivirus Mac": calculation = Math.multiplyExact(customerServiceCost.getPrice(), macDevices.size()); break;
-            case "Antivirus Windows" :  calculation = Math.multiplyExact(customerServiceCost.getPrice(), windowsDevices.size()); break;
+            case "AntivirusMac": calculation = Math.multiplyExact(customerServiceCost.getPrice(), macDevices.size()); break;
+            case "AntivirusWindows" :  calculation = Math.multiplyExact(customerServiceCost.getPrice(), windowsDevices.size()); break;
             default: calculation = Math.multiplyExact(customerServiceCost.getPrice(), devicesByCustomerId.size()); break;
         }
 
