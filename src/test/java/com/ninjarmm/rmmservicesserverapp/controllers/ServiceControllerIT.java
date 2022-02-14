@@ -1,13 +1,18 @@
 package com.ninjarmm.rmmservicesserverapp.controllers;
 
-import com.ninjarmm.rmmservicesserverapp.exceptions.DeviceTypeDoesNotExistException;
-import com.ninjarmm.rmmservicesserverapp.exceptions.NoDevicesFoundForCustomerException;
+import com.ninjarmm.rmmservicesserverapp.exceptions.NoServicesFoundForCustomerException;
+import com.ninjarmm.rmmservicesserverapp.exceptions.ServiceNameDoesNotExistException;
 import com.ninjarmm.rmmservicesserverapp.model.devices.Device;
 import com.ninjarmm.rmmservicesserverapp.model.devices.DeviceDetails;
 import com.ninjarmm.rmmservicesserverapp.model.devices.DeviceType;
+import com.ninjarmm.rmmservicesserverapp.model.services.Service;
+import com.ninjarmm.rmmservicesserverapp.model.services.ServiceName;
+import com.ninjarmm.rmmservicesserverapp.model.services.ServiceNameDto;
 import com.ninjarmm.rmmservicesserverapp.repositories.DeviceRepository;
+import com.ninjarmm.rmmservicesserverapp.repositories.ServiceRepository;
 import com.ninjarmm.rmmservicesserverapp.util.BaseIT;
 import com.ninjarmm.rmmservicesserverapp.util.DeviceUtil;
+import com.ninjarmm.rmmservicesserverapp.util.ServiceUtil;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -25,8 +30,8 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-public class DeviceControllerIT extends BaseIT {
-    private final static String PATH = "/customers/{customerId}/devices";
+public class ServiceControllerIT extends BaseIT {
+    private final static String PATH = "/customers/{customerId}/services";
 
     @LocalServerPort
     private int port;
@@ -34,7 +39,7 @@ public class DeviceControllerIT extends BaseIT {
     @Autowired
     private TestRestTemplate restTemplate;
     @Autowired
-    private DeviceRepository deviceRepository;
+    private ServiceRepository serviceRepository;
 
     private UriComponents uriComponents;
 
@@ -45,46 +50,39 @@ public class DeviceControllerIT extends BaseIT {
     }
 
     @Test
-    void getDevicesForACustomer() {
-        Device device1 = DeviceUtil.buildDevice(CUSTOMER_1, "device1", DeviceType.WINDOWS_WORKSTATION);
-        deviceRepository.save(device1);
+    void getServicesForACustomer() {
+        Service service = ServiceUtil.buildService(CUSTOMER_1, ServiceName.PSA.getName());
+        serviceRepository.save(service);
         assertTrue(this.restTemplate.getForEntity(uriComponents.toUriString(), Set.class)
                 .getStatusCode().is2xxSuccessful());
     }
 
     @Test
-    void getDevicesForACustomer_NoDevices() {
-        assertTrue(this.restTemplate.getForEntity(uriComponents.toUriString(), NoDevicesFoundForCustomerException.class)
+    void getServicesForACustomer_servicesNotFound() {
+        assertTrue(this.restTemplate.getForEntity(uriComponents.toUriString(), NoServicesFoundForCustomerException.class)
                 .getStatusCode().is4xxClientError());
     }
 
     @Test
-    void addDeviceToCustomer(){
-        DeviceDetails deviceDetails = new DeviceDetails("systemName", DeviceType.MAC);
-        assertTrue(this.restTemplate.postForEntity(uriComponents.toUriString(), deviceDetails, DeviceDetails.class)
-                .getStatusCode().is2xxSuccessful());
-    }
-
-    @Test
-    void addDeviceToCustomer_BadDeviceType(){
-        String deviceJson = "{\"systemName\":\"system1\", \"type\":\"BadDeviceType\"}";
-        assertTrue(this.restTemplate.postForEntity(uriComponents.toUriString(), deviceJson, DeviceTypeDoesNotExistException.class)
+    void addDeviceToCustomer_BadServiceName(){
+        String deviceJson = "{\"BadServiceName\"}";
+        assertTrue(this.restTemplate.postForEntity(uriComponents.toUriString(), deviceJson, ServiceNameDoesNotExistException.class)
                 .getStatusCode().is4xxClientError());
     }
 
     @Test
-    void deleteDeviceFromCustomer(){
-        Device device1 = DeviceUtil.buildDevice(CUSTOMER_1, "device1", DeviceType.MAC);
-        deviceRepository.save(device1);
+    void deleteServiceFromCustomer(){
+        Service service = ServiceUtil.buildService(CUSTOMER_1, ServiceName.PSA.getName());
+        serviceRepository.save(service);
         UriComponents deleteUriComponents = UriComponentsBuilder.newInstance()
-                .scheme("http").host("localhost:" + port).path(PATH + "/{deviceId}").buildAndExpand(CUSTOMER_1, "device1");
+                .scheme("http").host("localhost:" + port).path(PATH + "/{serviceName}").buildAndExpand(CUSTOMER_1, "PSA");
         this.restTemplate.delete(deleteUriComponents.toUriString());
-        assertEquals(Collections.EMPTY_SET, deviceRepository.findAllById_CustomerId(CUSTOMER_1));
+        assertEquals(Collections.EMPTY_SET, serviceRepository.findAllById_CustomerId(CUSTOMER_1));
     }
 
     @AfterEach
     private void cleanUp(){
-        deviceRepository.deleteAll();
+        serviceRepository.deleteAll();
     }
 
 }
