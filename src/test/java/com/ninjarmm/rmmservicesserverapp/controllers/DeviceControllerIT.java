@@ -1,6 +1,5 @@
 package com.ninjarmm.rmmservicesserverapp.controllers;
 
-import com.ninjarmm.rmmservicesserverapp.model.Role;
 import com.ninjarmm.rmmservicesserverapp.model.devices.Device;
 import com.ninjarmm.rmmservicesserverapp.model.devices.DeviceDetails;
 import com.ninjarmm.rmmservicesserverapp.model.devices.DeviceType;
@@ -36,8 +35,6 @@ public class DeviceControllerIT extends BaseIT {
     @Autowired
     private DeviceRepository deviceRepository;
 
-    //    @MockBean
-//    private UserService userService;
     private UriComponents uriComponents;
 
     @BeforeEach
@@ -47,9 +44,6 @@ public class DeviceControllerIT extends BaseIT {
 
         uriComponents = UriComponentsBuilder.newInstance()
                 .scheme("http").host("localhost:" + port).path(PATH).buildAndExpand(CUSTOMER_1);
-
-//        given(userService.loadUserByUsername(anyString()))
-//                .willReturn(new User("user1", "password", Collections.singleton(new SimpleGrantedAuthority(role.getName()))));
     }
 
     @Test
