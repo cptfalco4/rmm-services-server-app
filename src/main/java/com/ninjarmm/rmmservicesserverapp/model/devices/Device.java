@@ -22,7 +22,7 @@ public class Device {
     String type;
 
     @JsonIgnore
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne
     @JoinColumn(name = "customer_id")
     @MapsId("customerId")
     private Customer customer;

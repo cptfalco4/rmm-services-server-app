@@ -9,6 +9,7 @@ import com.ninjarmm.rmmservicesserverapp.model.devices.DeviceDto;
 import com.ninjarmm.rmmservicesserverapp.model.devices.DeviceDetails;
 import com.ninjarmm.rmmservicesserverapp.repositories.CustomerRepository;
 import com.ninjarmm.rmmservicesserverapp.repositories.DeviceRepository;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
@@ -51,6 +52,7 @@ public class DeviceService {
         }
     }
 
+    @Query("DELETE FROM Device WHERE id.customerId=:customerId and id.deviceId=:deviceId")
     public void deleteDeviceFromCustomer(String customerId, String deviceId) {
         deviceRepository.deleteById(new DeviceId(customerId, deviceId));
     }

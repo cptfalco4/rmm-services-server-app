@@ -13,8 +13,8 @@ Now, simply run the application.
 In order for the prices to be dynamic, I have created them as a table. If you wish to have the same services and prices available as indicated in the problem statement, run the following commands on your Postgres database:  
 (Sub "rmmservicesdb.public" for your own database path if not the same.)
 
-INSERT INTO rmmservicesdb.public.service_cost(service_name, price) VALUES ('Antivirus Mac', 57;  
-INSERT INTO rmmservicesdb.public.service_cost(service_name, price) VALUES ('Antivirus Windows', 5);  
+INSERT INTO rmmservicesdb.public.service_cost(service_name, price) VALUES ('AntivirusMac', 57);  
+INSERT INTO rmmservicesdb.public.service_cost(service_name, price) VALUES ('AntivirusWindows', 5);  
 INSERT INTO rmmservicesdb.public.service_cost(service_name, price) VALUES ('Cloudberry', 3);  
 INSERT INTO rmmservicesdb.public.service_cost(service_name, price) VALUES ('PSA', 2);  
 INSERT INTO rmmservicesdb.public.service_cost(service_name, price) VALUES ('TeamViewer', 1);  
