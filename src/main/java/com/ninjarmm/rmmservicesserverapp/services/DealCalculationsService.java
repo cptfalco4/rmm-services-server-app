@@ -1,6 +1,5 @@
 package com.ninjarmm.rmmservicesserverapp.services;
 
-import com.ninjarmm.rmmservicesserverapp.exceptions.NoDevicesFoundForCustomerException;
 import com.ninjarmm.rmmservicesserverapp.model.costs.CustomerServiceCost;
 import com.ninjarmm.rmmservicesserverapp.model.devices.DeviceDto;
 import com.ninjarmm.rmmservicesserverapp.model.devices.DeviceType;

@@ -1,7 +1,6 @@
 package com.ninjarmm.rmmservicesserverapp.model.services;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.ninjarmm.rmmservicesserverapp.model.costs.ServiceCost;
 import com.ninjarmm.rmmservicesserverapp.model.customers.Customer;
 import lombok.*;
 

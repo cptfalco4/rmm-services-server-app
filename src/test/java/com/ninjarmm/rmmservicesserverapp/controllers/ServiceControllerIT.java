@@ -2,16 +2,10 @@ package com.ninjarmm.rmmservicesserverapp.controllers;
 
 import com.ninjarmm.rmmservicesserverapp.exceptions.NoServicesFoundForCustomerException;
 import com.ninjarmm.rmmservicesserverapp.exceptions.ServiceNameDoesNotExistException;
-import com.ninjarmm.rmmservicesserverapp.model.devices.Device;
-import com.ninjarmm.rmmservicesserverapp.model.devices.DeviceDetails;
-import com.ninjarmm.rmmservicesserverapp.model.devices.DeviceType;
 import com.ninjarmm.rmmservicesserverapp.model.services.Service;
 import com.ninjarmm.rmmservicesserverapp.model.services.ServiceName;
-import com.ninjarmm.rmmservicesserverapp.model.services.ServiceNameDto;
-import com.ninjarmm.rmmservicesserverapp.repositories.DeviceRepository;
 import com.ninjarmm.rmmservicesserverapp.repositories.ServiceRepository;
 import com.ninjarmm.rmmservicesserverapp.util.BaseIT;
-import com.ninjarmm.rmmservicesserverapp.util.DeviceUtil;
 import com.ninjarmm.rmmservicesserverapp.util.ServiceUtil;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;

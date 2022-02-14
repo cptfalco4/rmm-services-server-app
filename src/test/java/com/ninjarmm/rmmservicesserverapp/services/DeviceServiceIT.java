@@ -1,6 +1,5 @@
 package com.ninjarmm.rmmservicesserverapp.services;
 
-import com.ninjarmm.rmmservicesserverapp.model.devices.DeviceId;
 import com.ninjarmm.rmmservicesserverapp.model.devices.DeviceType;
 import com.ninjarmm.rmmservicesserverapp.repositories.DeviceRepository;
 import com.ninjarmm.rmmservicesserverapp.util.BaseIT;
