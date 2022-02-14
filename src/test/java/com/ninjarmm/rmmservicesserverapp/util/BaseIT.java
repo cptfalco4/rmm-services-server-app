@@ -1,6 +1,6 @@
 package com.ninjarmm.rmmservicesserverapp.util;
 
-import com.ninjarmm.rmmservicesserverapp.model.customers.Customer;
+import com.ninjarmm.rmmservicesserverapp.models.customers.Customer;
 import com.ninjarmm.rmmservicesserverapp.repositories.CustomerRepository;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;

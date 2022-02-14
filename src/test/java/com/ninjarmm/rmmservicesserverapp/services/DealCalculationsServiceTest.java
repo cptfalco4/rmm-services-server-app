@@ -1,10 +1,10 @@
 package com.ninjarmm.rmmservicesserverapp.services;
 
 import com.ninjarmm.rmmservicesserverapp.exceptions.NoDevicesFoundForCustomerException;
-import com.ninjarmm.rmmservicesserverapp.model.costs.CustomerServiceCost;
-import com.ninjarmm.rmmservicesserverapp.model.devices.DeviceDto;
-import com.ninjarmm.rmmservicesserverapp.model.devices.DeviceType;
-import com.ninjarmm.rmmservicesserverapp.model.services.ServiceName;
+import com.ninjarmm.rmmservicesserverapp.models.costs.CustomerServiceCost;
+import com.ninjarmm.rmmservicesserverapp.models.devices.DeviceDto;
+import com.ninjarmm.rmmservicesserverapp.models.devices.DeviceType;
+import com.ninjarmm.rmmservicesserverapp.models.services.ServiceName;
 import org.assertj.core.util.Sets;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

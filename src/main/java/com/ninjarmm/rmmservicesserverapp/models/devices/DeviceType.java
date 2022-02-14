@@ -1,4 +1,4 @@
-package com.ninjarmm.rmmservicesserverapp.model.devices;
+package com.ninjarmm.rmmservicesserverapp.models.devices;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.ninjarmm.rmmservicesserverapp.exceptions.DeviceTypeDoesNotExistException;

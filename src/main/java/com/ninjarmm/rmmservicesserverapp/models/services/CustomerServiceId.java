@@ -1,4 +1,4 @@
-package com.ninjarmm.rmmservicesserverapp.model.services;
+package com.ninjarmm.rmmservicesserverapp.models.services;
 
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;

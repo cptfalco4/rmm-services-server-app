@@ -2,8 +2,8 @@ package com.ninjarmm.rmmservicesserverapp.controllers;
 
 import com.ninjarmm.rmmservicesserverapp.exceptions.NoServicesFoundForCustomerException;
 import com.ninjarmm.rmmservicesserverapp.exceptions.ServiceNameDoesNotExistException;
-import com.ninjarmm.rmmservicesserverapp.model.services.Service;
-import com.ninjarmm.rmmservicesserverapp.model.services.ServiceName;
+import com.ninjarmm.rmmservicesserverapp.models.services.Service;
+import com.ninjarmm.rmmservicesserverapp.models.services.ServiceName;
 import com.ninjarmm.rmmservicesserverapp.repositories.ServiceRepository;
 import com.ninjarmm.rmmservicesserverapp.util.BaseIT;
 import com.ninjarmm.rmmservicesserverapp.util.ServiceUtil;

@@ -1,7 +1,7 @@
 package com.ninjarmm.rmmservicesserverapp.config;
 
-import com.ninjarmm.rmmservicesserverapp.converter.DeviceTypeToStringConverter;
-import com.ninjarmm.rmmservicesserverapp.converter.ServiceNameToStringConverter;
+import com.ninjarmm.rmmservicesserverapp.converters.DeviceTypeToStringConverter;
+import com.ninjarmm.rmmservicesserverapp.converters.ServiceNameToStringConverter;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.format.FormatterRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;

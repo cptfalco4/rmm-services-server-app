@@ -1,6 +1,6 @@
-package com.ninjarmm.rmmservicesserverapp.converter;
+package com.ninjarmm.rmmservicesserverapp.converters;
 
-import com.ninjarmm.rmmservicesserverapp.model.devices.DeviceType;
+import com.ninjarmm.rmmservicesserverapp.models.devices.DeviceType;
 import org.springframework.core.convert.converter.Converter;
 
 public class DeviceTypeToStringConverter implements Converter<String, DeviceType> {

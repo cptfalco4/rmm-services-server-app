@@ -1,8 +1,8 @@
 package com.ninjarmm.rmmservicesserverapp.repositories;
 
-import com.ninjarmm.rmmservicesserverapp.model.devices.Device;
-import com.ninjarmm.rmmservicesserverapp.model.devices.DeviceId;
-import com.ninjarmm.rmmservicesserverapp.model.devices.DeviceType;
+import com.ninjarmm.rmmservicesserverapp.models.devices.Device;
+import com.ninjarmm.rmmservicesserverapp.models.devices.DeviceId;
+import com.ninjarmm.rmmservicesserverapp.models.devices.DeviceType;
 import com.ninjarmm.rmmservicesserverapp.util.BaseIT;
 import com.ninjarmm.rmmservicesserverapp.util.DeviceUtil;
 import org.junit.jupiter.api.AfterEach;

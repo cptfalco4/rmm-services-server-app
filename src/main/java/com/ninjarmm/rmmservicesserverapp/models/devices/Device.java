@@ -1,26 +1,32 @@
-package com.ninjarmm.rmmservicesserverapp.model.services;
+
+package com.ninjarmm.rmmservicesserverapp.models.devices;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.ninjarmm.rmmservicesserverapp.model.customers.Customer;
+import com.ninjarmm.rmmservicesserverapp.models.customers.Customer;
 import lombok.*;
 
 import javax.persistence.*;
 
-
-@Table(name = "services")
+@Table(name = "devices")
 @Entity
 @NoArgsConstructor(access= AccessLevel.PUBLIC)
 @AllArgsConstructor(access= AccessLevel.PUBLIC)
+@Builder
 @Getter(AccessLevel.PUBLIC)
 @Setter(AccessLevel.PUBLIC)
-@Builder
-public class Service {
+public class Device {
     @EmbeddedId
-    private ServiceId id;
+    DeviceId id;
+
+    String systemName;
+    String type;
 
     @JsonIgnore
     @ManyToOne
-    @JoinColumn(name="customer_id", nullable = false)
+    @JoinColumn(name = "customer_id")
     @MapsId("customerId")
     private Customer customer;
+
 }
+
+

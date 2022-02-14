@@ -1,7 +1,7 @@
 package com.ninjarmm.rmmservicesserverapp.controllers;
 
-import com.ninjarmm.rmmservicesserverapp.model.services.Service;
-import com.ninjarmm.rmmservicesserverapp.model.services.ServiceNameDto;
+import com.ninjarmm.rmmservicesserverapp.models.services.Service;
+import com.ninjarmm.rmmservicesserverapp.models.services.ServiceNameDto;
 import com.ninjarmm.rmmservicesserverapp.services.CustomerServicesService;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;

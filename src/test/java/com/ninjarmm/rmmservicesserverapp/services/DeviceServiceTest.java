@@ -2,8 +2,8 @@ package com.ninjarmm.rmmservicesserverapp.services;
 
 import com.ninjarmm.rmmservicesserverapp.exceptions.DeviceNotFoundException;
 import com.ninjarmm.rmmservicesserverapp.exceptions.NoDevicesFoundForCustomerException;
-import com.ninjarmm.rmmservicesserverapp.model.customers.Customer;
-import com.ninjarmm.rmmservicesserverapp.model.devices.*;
+import com.ninjarmm.rmmservicesserverapp.models.customers.Customer;
+import com.ninjarmm.rmmservicesserverapp.models.devices.*;
 import com.ninjarmm.rmmservicesserverapp.repositories.CustomerRepository;
 import com.ninjarmm.rmmservicesserverapp.repositories.DeviceRepository;
 import org.junit.jupiter.api.BeforeEach;

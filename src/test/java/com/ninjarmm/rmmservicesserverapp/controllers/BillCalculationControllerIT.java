@@ -1,10 +1,10 @@
 package com.ninjarmm.rmmservicesserverapp.controllers;
 
 import com.ninjarmm.rmmservicesserverapp.exceptions.NoDevicesFoundForCustomerException;
-import com.ninjarmm.rmmservicesserverapp.model.devices.Device;
-import com.ninjarmm.rmmservicesserverapp.model.devices.DeviceType;
-import com.ninjarmm.rmmservicesserverapp.model.services.Service;
-import com.ninjarmm.rmmservicesserverapp.model.services.ServiceName;
+import com.ninjarmm.rmmservicesserverapp.models.devices.Device;
+import com.ninjarmm.rmmservicesserverapp.models.devices.DeviceType;
+import com.ninjarmm.rmmservicesserverapp.models.services.Service;
+import com.ninjarmm.rmmservicesserverapp.models.services.ServiceName;
 import com.ninjarmm.rmmservicesserverapp.repositories.DeviceRepository;
 import com.ninjarmm.rmmservicesserverapp.repositories.ServiceRepository;
 import com.ninjarmm.rmmservicesserverapp.util.BaseIT;

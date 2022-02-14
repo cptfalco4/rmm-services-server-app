@@ -2,12 +2,12 @@ package com.ninjarmm.rmmservicesserverapp.services;
 
 import com.ninjarmm.rmmservicesserverapp.exceptions.NoServicesFoundForCustomerException;
 import com.ninjarmm.rmmservicesserverapp.exceptions.ServiceAlreadyExistsException;
-import com.ninjarmm.rmmservicesserverapp.model.costs.CustomerServiceCost;
-import com.ninjarmm.rmmservicesserverapp.model.customers.Customer;
-import com.ninjarmm.rmmservicesserverapp.model.services.Service;
-import com.ninjarmm.rmmservicesserverapp.model.services.ServiceId;
-import com.ninjarmm.rmmservicesserverapp.model.services.ServiceName;
-import com.ninjarmm.rmmservicesserverapp.model.services.ServiceNameDto;
+import com.ninjarmm.rmmservicesserverapp.models.costs.CustomerServiceCost;
+import com.ninjarmm.rmmservicesserverapp.models.customers.Customer;
+import com.ninjarmm.rmmservicesserverapp.models.services.Service;
+import com.ninjarmm.rmmservicesserverapp.models.services.ServiceId;
+import com.ninjarmm.rmmservicesserverapp.models.services.ServiceName;
+import com.ninjarmm.rmmservicesserverapp.models.services.ServiceNameDto;
 import com.ninjarmm.rmmservicesserverapp.repositories.ServiceRepository;
 
 import javax.persistence.EntityManager;
@@ -49,7 +49,7 @@ public class CustomerServicesService {
 
     public List<CustomerServiceCost> getServiceCostsByCustomerId(String customerId) {
         Query query = entityManager.createQuery("SELECT" +
-                " NEW com.ninjarmm.rmmservicesserverapp.model.costs.CustomerServiceCost(s.id.customerId, c.serviceName, c.price)" +
+                " NEW com.ninjarmm.rmmservicesserverapp.models.costs.CustomerServiceCost(s.id.customerId, c.serviceName, c.price)" +
                 " FROM Service s INNER JOIN ServiceCost c" +
                 " ON s.id.serviceName = c.serviceName WHERE s.id.customerId = ?1", CustomerServiceCost.class);
         query.setParameter(1, customerId);

@@ -1,8 +1,8 @@
 package com.ninjarmm.rmmservicesserverapp.services;
 
-import com.ninjarmm.rmmservicesserverapp.model.costs.CustomerServiceCost;
-import com.ninjarmm.rmmservicesserverapp.model.devices.DeviceDto;
-import com.ninjarmm.rmmservicesserverapp.model.devices.DeviceType;
+import com.ninjarmm.rmmservicesserverapp.models.costs.CustomerServiceCost;
+import com.ninjarmm.rmmservicesserverapp.models.devices.DeviceDto;
+import com.ninjarmm.rmmservicesserverapp.models.devices.DeviceType;
 import org.springframework.stereotype.Service;
 
 import java.util.List;

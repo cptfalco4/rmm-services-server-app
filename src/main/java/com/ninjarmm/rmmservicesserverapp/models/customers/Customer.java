@@ -1,7 +1,7 @@
-package com.ninjarmm.rmmservicesserverapp.model.customers;
+package com.ninjarmm.rmmservicesserverapp.models.customers;
 
-import com.ninjarmm.rmmservicesserverapp.model.devices.Device;
-import com.ninjarmm.rmmservicesserverapp.model.services.Service;
+import com.ninjarmm.rmmservicesserverapp.models.devices.Device;
+import com.ninjarmm.rmmservicesserverapp.models.services.Service;
 import lombok.*;
 
 import javax.persistence.*;

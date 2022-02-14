@@ -1,8 +1,8 @@
 package com.ninjarmm.rmmservicesserverapp.repositories;
 
-import com.ninjarmm.rmmservicesserverapp.model.services.Service;
-import com.ninjarmm.rmmservicesserverapp.model.services.ServiceId;
-import com.ninjarmm.rmmservicesserverapp.model.services.ServiceName;
+import com.ninjarmm.rmmservicesserverapp.models.services.Service;
+import com.ninjarmm.rmmservicesserverapp.models.services.ServiceId;
+import com.ninjarmm.rmmservicesserverapp.models.services.ServiceName;
 import com.ninjarmm.rmmservicesserverapp.util.BaseIT;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;

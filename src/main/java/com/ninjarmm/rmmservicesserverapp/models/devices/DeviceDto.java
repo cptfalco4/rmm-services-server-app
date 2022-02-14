@@ -1,4 +1,4 @@
-package com.ninjarmm.rmmservicesserverapp.model.devices;
+package com.ninjarmm.rmmservicesserverapp.models.devices;
 
 import lombok.Builder;
 import lombok.Value;

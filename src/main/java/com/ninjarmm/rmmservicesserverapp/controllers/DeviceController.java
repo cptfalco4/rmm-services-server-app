@@ -1,8 +1,8 @@
 package com.ninjarmm.rmmservicesserverapp.controllers;
 
-import com.ninjarmm.rmmservicesserverapp.model.devices.Device;
-import com.ninjarmm.rmmservicesserverapp.model.devices.DeviceDetails;
-import com.ninjarmm.rmmservicesserverapp.model.devices.DeviceDto;
+import com.ninjarmm.rmmservicesserverapp.models.devices.Device;
+import com.ninjarmm.rmmservicesserverapp.models.devices.DeviceDetails;
+import com.ninjarmm.rmmservicesserverapp.models.devices.DeviceDto;
 import com.ninjarmm.rmmservicesserverapp.services.DeviceService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;

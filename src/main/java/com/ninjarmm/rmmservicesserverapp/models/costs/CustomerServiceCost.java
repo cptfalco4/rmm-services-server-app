@@ -1,4 +1,4 @@
-package com.ninjarmm.rmmservicesserverapp.model.costs;
+package com.ninjarmm.rmmservicesserverapp.models.costs;
 
 import lombok.Value;
 

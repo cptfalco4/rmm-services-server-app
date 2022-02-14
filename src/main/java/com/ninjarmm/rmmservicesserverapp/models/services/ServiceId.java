@@ -1,4 +1,5 @@
-package com.ninjarmm.rmmservicesserverapp.model.devices;
+
+package com.ninjarmm.rmmservicesserverapp.models.services;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -13,9 +14,8 @@ import java.io.Serializable;
 @AllArgsConstructor
 @Getter
 @Setter
-public class DeviceId implements Serializable {
-    private static final long serialVersionUID = 8260197099418399822L;
-
+public class ServiceId implements Serializable {
+    private static final long serialVersionUID = 8051522449291379380L;
     String customerId;
-    String deviceId;
+    String serviceName;
 }

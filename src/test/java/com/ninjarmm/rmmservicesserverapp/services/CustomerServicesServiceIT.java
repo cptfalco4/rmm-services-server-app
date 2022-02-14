@@ -2,12 +2,12 @@ package com.ninjarmm.rmmservicesserverapp.services;
 
 import com.ninjarmm.rmmservicesserverapp.exceptions.NoServicesFoundForCustomerException;
 import com.ninjarmm.rmmservicesserverapp.exceptions.ServiceAlreadyExistsException;
-import com.ninjarmm.rmmservicesserverapp.model.costs.CustomerServiceCost;
-import com.ninjarmm.rmmservicesserverapp.model.costs.ServiceCost;
-import com.ninjarmm.rmmservicesserverapp.model.services.Service;
-import com.ninjarmm.rmmservicesserverapp.model.services.ServiceId;
-import com.ninjarmm.rmmservicesserverapp.model.services.ServiceName;
-import com.ninjarmm.rmmservicesserverapp.model.services.ServiceNameDto;
+import com.ninjarmm.rmmservicesserverapp.models.costs.CustomerServiceCost;
+import com.ninjarmm.rmmservicesserverapp.models.costs.ServiceCost;
+import com.ninjarmm.rmmservicesserverapp.models.services.Service;
+import com.ninjarmm.rmmservicesserverapp.models.services.ServiceId;
+import com.ninjarmm.rmmservicesserverapp.models.services.ServiceName;
+import com.ninjarmm.rmmservicesserverapp.models.services.ServiceNameDto;
 import com.ninjarmm.rmmservicesserverapp.repositories.ServiceCostRepository;
 import com.ninjarmm.rmmservicesserverapp.repositories.ServiceRepository;
 import com.ninjarmm.rmmservicesserverapp.util.BaseIT;
