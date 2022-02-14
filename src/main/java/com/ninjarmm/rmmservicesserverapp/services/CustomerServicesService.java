@@ -32,7 +32,7 @@ public class CustomerServicesService {
         Set<Service> customerServices = serviceRepository.findAllById_CustomerId(customerId);
         checkForEmpty(customerId, customerServices);
         return customerServices.stream()
-                .map(customerService -> customerService.getId().getServiceName())
+                .map(this::aggregateAndDeriveServiceName)
                 .collect(Collectors.toSet());
     }
 
@@ -57,7 +57,7 @@ public class CustomerServicesService {
     }
 
     public void deleteServiceFromCustomer(String customerId, ServiceNameDto serviceName) {
-        if(serviceName == ServiceNameDto.ANTIVIRUS){
+        if (serviceName == ServiceNameDto.ANTIVIRUS) {
             serviceRepository.deleteById(new ServiceId(customerId, ServiceName.ANTIVIRUS_WINDOWS.getName()));
             serviceRepository.deleteById(new ServiceId(customerId, ServiceName.ANTIVIRUS_MAC.getName()));
         } else {
@@ -70,6 +70,15 @@ public class CustomerServicesService {
                 .id(new ServiceId(customerId, serviceName.getName()))
                 .customer(Customer.builder().id(customerId).build())
                 .build();
+    }
+
+    private String aggregateAndDeriveServiceName(Service customerService) {
+        if (customerService.getId().getServiceName().equals(ServiceName.ANTIVIRUS_WINDOWS.getName()) ||
+                customerService.getId().getServiceName().equals(ServiceName.ANTIVIRUS_MAC.getName())) {
+            return "Antivirus";
+        } else {
+            return customerService.getId().getServiceName();
+        }
     }
 
     private void checkValidityOfRequest(String customerId, ServiceNameDto serviceName) {

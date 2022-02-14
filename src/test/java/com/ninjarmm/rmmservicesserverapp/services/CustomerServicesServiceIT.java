@@ -69,9 +69,7 @@ public class CustomerServicesServiceIT extends BaseIT {
     @Test
     public void addServiceToCustomerId_Antivirus(){
         testObject.addServiceToCustomerId(CUSTOMER_2, ServiceNameDto.ANTIVIRUS);
-        Set<String> expectedResult = Sets.newHashSet(Arrays.asList(
-                ServiceName.ANTIVIRUS_WINDOWS.getName(),
-                ServiceName.ANTIVIRUS_MAC.getName()));
+        Set<String> expectedResult = Collections.singleton("Antivirus");
         assertEquals(expectedResult, testObject.getServicesByCustomerId(CUSTOMER_2));
     }
 
@@ -99,8 +97,7 @@ public class CustomerServicesServiceIT extends BaseIT {
         Set<String> expectedServices = Sets.newHashSet(Arrays.asList(
                 ServiceName.CLOUDBERRY.getName(),
                 ServiceName.PSA.getName(),
-                ServiceName.ANTIVIRUS_WINDOWS.getName(),
-                ServiceName.ANTIVIRUS_MAC.getName()));
+                "Antivirus"));
         assertEquals(expectedServices, testObject.getServicesByCustomerId(CUSTOMER_1));
         testObject.deleteServiceFromCustomer(CUSTOMER_1, ServiceNameDto.ANTIVIRUS);
 
